@@ -1,0 +1,121 @@
+<FileChoosePopup>:
+    title: "Choose an image file"
+    size_hint: .9, .9
+    auto_dismiss: False
+
+    BoxLayout:
+        orientation: "vertical"
+        FileChooser:
+            id: filechooser
+            path: "./"
+            FileChooserIconLayout
+
+        BoxLayout:
+            size_hint: (1, 0.1)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            spacing: 20
+            Button:
+                text: "Cancel"
+                on_release: root.dismiss()
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.selection)
+                id: ldbtn
+                disabled: True if filechooser.selection==[] else False
+
+<Button>
+    font_size: 12
+    size_hint: (0.2, 0.25)
+
+<MyLayout>
+    FloatLayout:
+        size: root.width, root.height
+
+        Label:
+            text: "Skin Disease Recognizer"
+            color: (0,0,0,1)
+            font_size: 20
+            size_hint: (0.5, 0.1)
+            pos_hint: {"x":0.04, "top":1}
+            bold: True
+
+        Widget:
+            id: separator
+            size_hint_y: None
+            height: 1
+            canvas:
+                Color:
+                    rgba: .5, .5, .5, 0.3
+                Rectangle:
+                    pos: 0, 475
+                    size: separator.width, 1    
+        Image:
+            source: ''
+            id: image
+            allow_stretch: True
+            canvas.before:
+                Color:
+                    rgba: .5, .5, .5, 1
+                Line:
+                    dash_length: 7
+                    dash_offset: 12
+                    width: 1
+                    rounded_rectangle: (self.x, self.y, 390, 220, 5, 5, 5, 5, 100)
+                    #rectangle: self.x, self.y, self.width, self.height
+
+            size: 390, 220
+            size_hint: (None, None)
+            pos_hint: {"x":0.05, "y":0.45}
+        
+        Label:
+            id: imglabel
+            text: "Browse and Select an Skin Disease Image"
+            color: ('#034078')
+            size_hint: (0.3, 0.2)
+            pos_hint: {"x":0.35, "y":0.55}
+            font_size: 12    
+
+        BoxLayout:
+            orientation: "horizontal"
+            pos_hint: {"x":0.05, "y":0.32}
+            size_hint: (0.9, 0.35)
+            spacing: 30
+
+            Button:
+                text: "Select Image"
+                pos_hint: {"x":0, "y":0}
+                background_color: ('#252422')
+                background_normal: '' 
+                on_press: root.open_popup()
+
+
+            Button:
+                text: "Capture Image"
+                pos_hint: {"x":0, "right":0.2}
+                background_color: ('#252422')
+                background_normal: '' 
+                on_press: root.open_camera()
+        
+        Button:
+            text: "Classify Image"
+            size_hint: (0.9, 0.075)
+            pos_hint: {"x":0.05, "y":0.23}
+            background_color: ('#034078')
+            background_normal: '' 
+            on_press: root.classify_img()
+
+        Label:
+            text: "Recognized Disease"
+            color: (0,0,0,1)
+            size_hint: (0.3, 0.2)
+            pos_hint: {"x":0.1, "y":0.07}
+            font_size: 20
+            bold: True
+
+        Label:
+            text: ""
+            id: pred_label
+            color: ('#034078')
+            size_hint: (1, 0.2)
+            pos_hint: {"y":0.0}
+            font_size: 16
